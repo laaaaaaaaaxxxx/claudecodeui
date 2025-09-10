@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ChatInterface from './ChatInterface';
 import FileTree from './FileTree';
 import CodeEditor from './CodeEditor';
@@ -52,6 +53,7 @@ function MainContent({
   autoScrollToBottom,     // Auto-scroll to bottom when new messages arrive
   sendByCtrlEnter         // Send by Ctrl+Enter mode for East Asian language input
 }) {
+  const { t } = useTranslation();
   const [editingFile, setEditingFile] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showTaskDetail, setShowTaskDetail] = useState(false);
@@ -206,13 +208,13 @@ function MainContent({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-white">Choose Your Project</h2>
+            <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-white">{t('chooseProject')}</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Select a project from the sidebar to start coding with Claude. Each project contains your chat sessions and file history.
+              {t('projectSelectDescription')}
             </p>
             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
               <p className="text-sm text-blue-700 dark:text-blue-300">
-                💡 <strong>Tip:</strong> {isMobile ? 'Tap the menu button above to access projects' : 'Create a new project by clicking the folder icon in the sidebar'}
+                💡 <strong>Tip:</strong> {isMobile ? t('openMenu') : t('createProjectSidebar')}
               </p>
             </div>
           </div>
@@ -264,7 +266,7 @@ function MainContent({
                 ) : activeTab === 'chat' && !selectedSession ? (
                   <div>
                     <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
-                      New Session
+                      {t('newSession')}
                     </h2>
                     <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                       {selectedProject.displayName}
@@ -273,8 +275,8 @@ function MainContent({
                 ) : (
                   <div>
                     <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
-                      {activeTab === 'files' ? 'Project Files' : 
-                       activeTab === 'git' ? 'Source Control' : 
+                      {activeTab === 'files' ? t('projectFiles') : 
+                       activeTab === 'git' ? t('sourceControl') : 
                        (activeTab === 'tasks' && shouldShowTasksTab) ? 'TaskMaster' : 
                        'Project'}
                     </h2>
@@ -290,7 +292,7 @@ function MainContent({
           {/* Modern Tab Navigation - Right Side */}
           <div className="flex-shrink-0 hidden sm:block">
             <div className="relative flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-              <Tooltip content="Chat" position="bottom">
+              <Tooltip content={t('chat')} position="bottom">
                 <button
                   onClick={() => setActiveTab('chat')}
                   className={`relative px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md ${
@@ -303,11 +305,11 @@ function MainContent({
                     <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
-                    <span className="hidden md:hidden lg:inline">Chat</span>
+                    <span className="hidden md:hidden lg:inline">{t('chat')}</span>
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip content="Shell" position="bottom">
+              <Tooltip content={t('shell')} position="bottom">
                 <button
                   onClick={() => setActiveTab('shell')}
                   className={`relative px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 ${
@@ -320,11 +322,11 @@ function MainContent({
                     <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
-                    <span className="hidden md:hidden lg:inline">Shell</span>
+                    <span className="hidden md:hidden lg:inline">{t('shell')}</span>
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip content="Files" position="bottom">
+              <Tooltip content={t('files')} position="bottom">
                 <button
                   onClick={() => setActiveTab('files')}
                   className={`relative px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 ${
@@ -337,11 +339,11 @@ function MainContent({
                     <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z" />
                     </svg>
-                    <span className="hidden md:hidden lg:inline">Files</span>
+                    <span className="hidden md:hidden lg:inline">{t('files')}</span>
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip content="Source Control" position="bottom">
+              <Tooltip content={t('sourceControl')} position="bottom">
                 <button
                   onClick={() => setActiveTab('git')}
                   className={`relative px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 ${
@@ -354,12 +356,12 @@ function MainContent({
                     <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <span className="hidden md:hidden lg:inline">Source Control</span>
+                    <span className="hidden md:hidden lg:inline">{t('sourceControl')}</span>
                   </span>
                 </button>
               </Tooltip>
               {shouldShowTasksTab && (
-                <Tooltip content="Tasks" position="bottom">
+                <Tooltip content={t('tasks')} position="bottom">
                   <button
                     onClick={() => setActiveTab('tasks')}
                     className={`relative px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 ${
@@ -372,7 +374,7 @@ function MainContent({
                       <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                       </svg>
-                      <span className="hidden md:hidden lg:inline">Tasks</span>
+                      <span className="hidden md:hidden lg:inline">{t('tasks')}</span>
                     </span>
                   </button>
                 </Tooltip>
@@ -389,7 +391,7 @@ function MainContent({
                   <svg className="w-3 sm:w-3.5 h-3 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                   </svg>
-                  <span className="hidden sm:inline">Preview</span>
+                  <span className="hidden sm:inline">{t('preview')}</span>
                 </span>
               </button> */}
             </div>

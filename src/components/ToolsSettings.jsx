@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
@@ -7,6 +9,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useTasksSettings } from '../contexts/TasksSettingsContext';
 
 function ToolsSettings({ isOpen, onClose, projects = [] }) {
+  const { t } = useTranslation();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { 
     tasksEnabled, 
@@ -602,7 +605,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
           <div className="flex items-center gap-3">
             <Settings className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
             <h2 className="text-lg md:text-xl font-semibold text-foreground">
-              Settings
+              {t('toolsAndSettings')}
             </h2>
           </div>
           <Button
@@ -627,7 +630,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                     : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Tools
+                {t('security')}
               </button>
               <button
                 onClick={() => setActiveTab('appearance')}
@@ -637,7 +640,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                     : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Appearance
+                {t('appearance')}
               </button>
               <button
                 onClick={() => setActiveTab('tasks')}
@@ -647,7 +650,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                     : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Tasks
+                {t('tasks')}
               </button>
             </div>
           </div>
@@ -665,10 +668,10 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
         <div className="flex items-center justify-between">
           <div>
             <div className="font-medium text-foreground">
-              Dark Mode
+              {t('darkMode')}
             </div>
             <div className="text-sm text-muted-foreground">
-              Toggle between light and dark themes
+              {t('toggleDarkMode')}
             </div>
           </div>
           <button
@@ -691,6 +694,34 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               )}
             </span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Language Selection */}
+    <div className="space-y-4">
+      <div className="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="font-medium text-foreground">
+              {t('changeLanguage')}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Choose your preferred language
+            </div>
+          </div>
+          <select
+            value={i18n.language}
+            onChange={(e) => {
+              const newLanguage = e.target.value;
+              i18n.changeLanguage(newLanguage);
+              localStorage.setItem('claude-ui-language', newLanguage);
+            }}
+            className="text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 w-32"
+          >
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
         </div>
       </div>
     </div>
@@ -763,7 +794,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               <div className="flex items-center gap-3">
                 <AlertTriangle className="w-5 h-5 text-orange-500" />
                 <h3 className="text-lg font-medium text-foreground">
-                  Permission Settings
+                  {t('toolSecurity')}
                 </h3>
               </div>
               <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
@@ -791,7 +822,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-green-500" />
                 <h3 className="text-lg font-medium text-foreground">
-                  Allowed Tools
+                  {t('allowedTools')}
                 </h3>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -818,7 +849,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                   className="h-10 px-4 touch-manipulation"
                 >
                   <Plus className="w-4 h-4 mr-2 sm:mr-0" />
-                  <span className="sm:hidden">Add Tool</span>
+                  <span className="sm:hidden">{t('add')}</span>
                 </Button>
               </div>
 
@@ -872,7 +903,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               <div className="flex items-center gap-3">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
                 <h3 className="text-lg font-medium text-foreground">
-                  Disallowed Tools
+                  {t('restrictedTools')}
                 </h3>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -899,7 +930,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                   className="h-10 px-4 touch-manipulation"
                 >
                   <Plus className="w-4 h-4 mr-2 sm:mr-0" />
-                  <span className="sm:hidden">Add Tool</span>
+                  <span className="sm:hidden">{t('add')}</span>
                 </Button>
               </div>
 
@@ -946,7 +977,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               <div className="flex items-center gap-3">
                 <Server className="w-5 h-5 text-purple-500" />
                 <h3 className="text-lg font-medium text-foreground">
-                  MCP Servers
+                  {t('mcpServers')}
                 </h3>
               </div>
               <div className="space-y-2">
@@ -1137,7 +1168,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                 <div className="bg-background border border-border rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                   <div className="flex items-center justify-between p-4 border-b border-border">
                     <h3 className="text-lg font-medium text-foreground">
-                      {editingMcpServer ? 'Edit MCP Server' : 'Add MCP Server'}
+                      {editingMcpServer ? t('editMcpServer') : t('addMcpServer')}
                     </h3>
                     <Button variant="ghost" size="sm" onClick={resetMcpForm}>
                       <X className="w-4 h-4" />
@@ -1467,7 +1498,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
 
                     <div className="flex justify-end gap-2 pt-4">
                       <Button type="button" variant="outline" onClick={resetMcpForm}>
-                        Cancel
+                        {t('cancel')}
                       </Button>
                       <Button 
                         type="submit" 
@@ -1876,7 +1907,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
               disabled={isSaving}
               className="flex-1 sm:flex-none h-10 touch-manipulation"
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button 
               onClick={saveSettings} 
@@ -1889,7 +1920,7 @@ function ToolsSettings({ isOpen, onClose, projects = [] }) {
                   Saving...
                 </div>
               ) : (
-                'Save Settings'
+                t('saveChanges')
               )}
             </Button>
           </div>
